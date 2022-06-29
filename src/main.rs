@@ -11,10 +11,19 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
+    #[clap(about="Get the filename excluding the extension")]
     Stem { path: String },
+
+    #[clap(about="Whether the path is an absolute path")]
     IsAbsolute { path: String },
+
+    #[clap(about="Return the parent of the input")]
     Parent { path: String },
+
+    #[clap(about="Get the filename")]
     Filename { path: String },
+    
+    #[clap(about="Get the filename with a different suffix")]
     WithSuffix { path: String, suffix: String },
 }
 
