@@ -76,10 +76,8 @@ fn process(command: Commands) -> Option<()> {
             println!("{}", path.as_path().file_name()?.to_string_lossy());
         }
         Commands::WithSuffix { path, suffix } => {
-            println!(
-                "{}",
-                path.as_path().with_extension(suffix).to_string_lossy()
-            );
+            _ = path.file_name()?;
+            println!("{}", path.as_path().with_extension(suffix).display());
         }
         Commands::IsRelative { path } => {
             path.as_path().is_relative().then_some(())?;
