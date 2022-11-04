@@ -1,5 +1,5 @@
 use clap::{Parser, Subcommand};
-use std::{path::PathBuf, process::ExitCode};
+use std::{path::PathBuf, process::ExitCode, ffi::OsString};
 
 #[derive(Parser)]
 #[clap(author, version, about, long_about = None)]
@@ -59,6 +59,9 @@ enum Commands {
 
     /// Get the filename with a different suffix
     WithSuffix { path: PathBuf, suffix: String },
+
+    /// Replace a component
+    Replace { path: PathBuf, n: usize, replacement: OsString },
 }
 
 fn process(command: Commands) -> Option<()> {
@@ -118,6 +121,12 @@ fn process(command: Commands) -> Option<()> {
         Commands::WithFileName { path, filename } => {
             println!("{}", path.with_file_name(filename).display());
         }
+        Commands::Replace { path, n, replacement } => {
+            let mut components : Vec<_> = path.into_iter().collect();
+            components[n] = &replacement;
+            let path: PathBuf = components.into_iter().collect();
+            println!("{}", &path.display());
+        },
     };
     Some(())
 }
